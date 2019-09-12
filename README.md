@@ -1,7 +1,7 @@
 # Skystone
 Latin Robotics 2019-2020 season
 
-Jamir = Amir (black hair prob wearing a hoodie or gray jacket) or Jackson (blonde hair prob wearing red jacket) we both don't look like seniors 
+Jamir = Amir or Jackson
 
 
 Why use github?
