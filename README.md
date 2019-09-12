@@ -43,8 +43,8 @@ Working with GitHub
 0. Make sure you've followed previous steps correctly
 
 1. Update master branch
-	```git checkout master
-      	```git pull origin master
+	git checkout master
+      	git pull origin master
 
 2. Make new branch
 	git checkout -b (name of branch, follow naming conventions below)
