@@ -30,9 +30,9 @@ if you have one already add it to ur github account
 2. Go to the repository link:
 	Click the green "clone button" than than click "use ssh" 
 
-3. "git init" in terminal
+3. ```git init``` in terminal
 
-4. "git clone" than paste the thing from github.
+4. ```git clone``` than paste the thing from github.
 
 5. I probably forgot something in this, just contact Jamir if problems arise 
 
@@ -43,29 +43,29 @@ Working with GitHub
 0. Make sure you've followed previous steps correctly
 
 1. Update master branch
-	git checkout master
-      	git pull origin master
+	```git checkout master
+      	git pull origin master```
 
 2. Make new branch
 	git checkout -b (name of branch, follow naming conventions below)
 
 3. Go to branch and update it if not up to date
-	git checkout (name of branch)
+	```git checkout (name of branch)
 	git merge master
 	git commit
-	git push
+	git push```
 
-4. git checkout (name of branch)
+4. ```git checkout (name of branch)```
 
 5. Edit files with whatever
 
-6. "git status" to see what files are different from master branch
+6. ```git status``` to see what files are different from master branch
 
-7. "git add (file to commit)" do this for every file u want to change
+7. ```git add (file to commit)``` do this for every file u want to change
 
-8. "git commit -m "commit msg, follow instructions below"
+8. ```git commit -m "commit msg"```, follow instructions below"
 
-9. "git push origin (name of branch)"
+9. ```git push origin (name of branch)```
 
 10. Go to repository on github.com
 
