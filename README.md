@@ -76,8 +76,8 @@ Working with GitHub
 
 
 Branch naming convention: 
-	Name(Auto, Hardware, or Teleop)
-	Example: Amir(Auto)
+	Name/Auto, Hardware, or Teleop
+	Example: Amir/Auto
  	Dont use spaces
 	
 Commit naming convention:
