@@ -32,9 +32,9 @@ if you have one already add it to ur github account
 
 3. ```git init``` in terminal
 
-4. ```git clone``` than paste the thing from github.
+4. ```git clone ############```, replace ### with the link from the site
 
-5. I probably forgot something in this, just contact Jamir if problems arise 
+5. I probably forgot something, contact Jamir if problems arise 
 
 
 Working with GitHub
@@ -76,7 +76,7 @@ Working with GitHub
 
 
 Branch naming convention: 
-	Name(Auto or Teleop)
+	Name(Auto, Hardware, or Teleop)
 	Example: Amir(Auto)
  	Dont use spaces
 	
