@@ -47,13 +47,13 @@ Working with GitHub
       	```git pull origin master```
 
 2. Make new branch
-	git checkout -b (name of branch, follow naming conventions below)
+	```git checkout -b "name of branch" follow naming conventions below```
 
 3. Go to branch and update it if not up to date
-	git checkout (name of branch)
+	```git checkout (name of branch)
 	git merge master
 	git commit
-	git push
+	git push```
 
 4. ```git checkout (name of branch)```
 
