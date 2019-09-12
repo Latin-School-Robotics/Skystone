@@ -1,3 +1,18 @@
+/**
+Drivetrain_.java
+Created by Jackson Bremen
+
+Changelog:
+9/12/19
+ - Created file
+ - Rotation values are almost certainly meaningless
+
+
+TODO: 
+	Get setup for encoders, if wanted. Last year we didn't have them for drivetrain tho
+
+*/
+
 package org.firstinspires.ftc.teamcode;
 
 import static java.lang.Math.*;
@@ -20,17 +35,23 @@ public class Drivetrain_ {
 		rear_left_motor = hm.get(DcMotor.class, "rear_left_motor");
 		rear_right_motor = hm.get(DcMotor.class, "rear_right_motor");
 
-		front_left_motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        front_left_motor.setPower(1);
+		front_left_motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        front_right_motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rear_left_motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rear_right_motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        front_right_motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        front_right_motor.setPower(1);
+        //TODO: get it to work with encoders
+		// front_left_motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        // front_left_motor.setPower(1);
 
-        rear_left_motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        rear_left_motor.setPower(1);
+        // front_right_motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        // front_right_motor.setPower(1);
 
-        rear_right_motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        rear_right_motor.setPower(1);
+        // rear_left_motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        // rear_left_motor.setPower(1);
+
+        // rear_right_motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        // rear_right_motor.setPower(1);
 	}
 
 	/**
