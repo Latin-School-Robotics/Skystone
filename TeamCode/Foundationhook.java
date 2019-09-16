@@ -30,7 +30,13 @@ public class Foundationhook extends LinearOpMode{
 
   // Either move the servo up or down depending on the user's desires
   public void adjustHook (boolean up) {
-    if (up && hookServo.MAX_POSITION)
+    if (up && hookServo.MAX_POSITION > hookServo.getPosition()) {
+      hookServo.setPosition(hookServo.getPosition() + 0.1);
+      telemetry.addData("Servo Position: ", hookServo.getPosition());
+      telemetry.update();
+    }
+    // Servo setPosition goes from 0 - 1. 0 being 0º, and 1 being 180º.
+    // When gamepad2.right_stick_y == 1, I want it to set position to 1
     // If up is true, make the servo move up. Else keep the servo position the statement
     //hookServo.setPosition();
 
@@ -41,6 +47,8 @@ public class Foundationhook extends LinearOpMode{
     * We want to be ableto initialize the robot once and then not have to interact with the servos again
     */
     hookServo.setPosition(position);
+    telemetry.addData("Servo Position: ", hookServo.getPosition());
+    telemetry.update();
   }
 
 }
