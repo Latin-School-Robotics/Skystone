@@ -6,12 +6,14 @@ Jamir = Amir (black hair prob wearing a hoodie or gray jacket) or Jackson (blond
 
 Why use github?
 1. We've had code randomly vanish off the phone, thats not good. Github prevents "Disney Pixar's Finding auto.java"
+   a. amir is trying to be funny here, but the point is correct
 
 2. Version control, lets us separate previous code, working code, and in progress code
 
 3. easy to access in the future
 
 4. forces us to be organized
+    a. yes
 
 5. if you like to code, u will probably use it in the future
 
