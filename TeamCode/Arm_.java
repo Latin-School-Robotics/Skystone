@@ -1,14 +1,11 @@
 import java.util.*;
 
-/**
- * To be written still
- * This is skeleton code based on UML from 9/11/2019
- */
 public class Arm_ {
 
     /**
      * Default constructor
      */
+
     private boolean manual;
     private double armLength1;
     private double armLength2;
@@ -68,12 +65,7 @@ public class Arm_ {
 
 
     }
-    //pls help
-    /**
-     * @param double x 
-     * @param double y 
-     * @param double speed
-     */
+
     public void setPositionCoords(double x, double y, double speed) {
         // shoulder angle1
         // elbow    angle2
@@ -107,6 +99,7 @@ public class Arm_ {
      * @param double angle1 
      * @param double angle 2
      */
+
     public void setPositionAngles(double angle1, double angle2) {
         // angle1 = shoulder
         // angle2 = elbow
@@ -133,11 +126,11 @@ public class Arm_ {
 
         shoulder.setTargetPosition(angle1);
         elbow.setTargetPosition(angle2);
-    }
 
     /**
      * @param boolean open
      */
+
     public void adjustClaw(boolean open) {
         // TODO implement here
         if (open){
@@ -153,7 +146,4 @@ public class Arm_ {
     // public void adjust_wrist(double angle){
     //     do maybe
     // }
-
-
-
 }
