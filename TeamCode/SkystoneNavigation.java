@@ -170,20 +170,28 @@ public class SkystoneNavigation extends LinearOpMode {
         blueFrontBridge.setName("Blue Front Bridge");
         VuforiaTrackable red1 = targetsSkyStone.get(5);
         red1.setName("Red Perimeter 1");
+        // image 5
         VuforiaTrackable red2 = targetsSkyStone.get(6);
         red2.setName("Red Perimeter 2");
+        // image 3
         VuforiaTrackable front1 = targetsSkyStone.get(7);
         front1.setName("Front Perimeter 1");
+        // image 1
         VuforiaTrackable front2 = targetsSkyStone.get(8);
         front2.setName("Front Perimeter 2");
+        // image 2
         VuforiaTrackable blue1 = targetsSkyStone.get(9);
         blue1.setName("Blue Perimeter 1");
+        // image 4
         VuforiaTrackable blue2 = targetsSkyStone.get(10);
         blue2.setName("Blue Perimeter 2");
+        // image 6
         VuforiaTrackable rear1 = targetsSkyStone.get(11);
         rear1.setName("Rear Perimeter 1");
+        // image 8
         VuforiaTrackable rear2 = targetsSkyStone.get(12);
         rear2.setName("Rear Perimeter 2");
+        // image 7
 
         // For convenience, gather together all the trackable objects in one easily-iterable collection */
         List<VuforiaTrackable> allTrackables = new ArrayList<VuforiaTrackable>();
