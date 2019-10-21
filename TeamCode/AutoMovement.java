@@ -5,6 +5,9 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import java.util.List;
+
+import org.firstinspires.ftc.Autos.SkyStoneDetection;
+import org.firstinspires.ftc.Autos.SkystoneNavigation;
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection;
@@ -27,9 +30,12 @@ public class AutoMovement extends LinearOpMode {
 
     @Override
     public void runOpMode() {
+        HardwareMap hm = new HardwareMap();
+        Robot r = new Robot(hm);
         
         if (scannedImage.equals("Front Perimeter 1")) {
             // execute image 1 commands
+
 
         } else if (scannedImage.equals("Front Perimeter 2")) {
             // execute image 2 commands
@@ -51,7 +57,9 @@ public class AutoMovement extends LinearOpMode {
 
         } else if (scannedImage.equals("Rear Perimeter 1")){
             // execute image 8 commands
-
+            r.turnRight(90);
+            r.drive(38.5233333333);
+            // in centimeters
         }
     }
 }
