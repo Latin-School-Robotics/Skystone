@@ -57,9 +57,26 @@ public class AutoMovement extends LinearOpMode {
 
         } else if (scannedImage.equals("Rear Perimeter 1")){
             // execute image 8 commands
+            // one square is 57.785cm
             r.turnRight(90);
             r.drive(38.5233333333);
             // in centimeters
+            r.turnRight(90);
+            r.drive(86.6775);
+            r.turnRight(270);
+            // then while moving laterally, scan the stones until we scan a skystone. Once we do, pick up the skystone.
+            r.turnRight(270);
+            r.drive(213.8045);
+            r.turnRight(90);
+            // lower down the hook things and latch on to the foundation
+            r.drive(-28.8925);
+            // then raise the hook things
+            r.driveLateral(58.42);
+            r.drive(23.495);
+            r.turnRight(270);
+            // lower down the hook things
+            r.drive(-115.57);s
+
         }
     }
 }
