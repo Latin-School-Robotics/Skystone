@@ -27,7 +27,10 @@ public class AutoMovement extends LinearOpMode {
      * 
      */
     // String scannedImage;
-
+    // MEASUREMENTS ARE MADE IN DEGREES AND CENTIMETERS
+    // drive is driving forward, and when passed a negative parameter, it means drive backwards.
+    // turn right turns clockwise.
+    // 
     @Override
     public void runOpMode() {
         HardwareMap hm = new HardwareMap();
@@ -39,11 +42,32 @@ public class AutoMovement extends LinearOpMode {
 
         } else if (scannedImage.equals("Front Perimeter 2")) {
             // execute image 2 commands
+            r.turnRight(5);
+            r.drive(60);
+            r.turnRight(270);
+            r.drive(57.785);
+            // then while moving laterally, scan the stones until we scan a skystone. Once we do, pick up the skystone.
+            r.turnRight(180);
+            r.drive(98.2345);
+            r.turnRight(90);
+            r.drive(250.7869);
+            r.turnRight(90);
+            r.drive(98.2345);
+            // place the skystone on the foundation, preferably on top of the other skystone
+            // lower the hook things and grab onto the foundation
+            r.drive(-75.1205);
+            // raise the hook things
+            r.driveLateralRight(70);
+            r.drive(23.495);
+            r.turnRight(270);
+            // lower the hook things
+            r.drive(-115.57);
+
 
         } else if (scannedImage.equals("Red Perimeter 2")) {
             // execute image 3 commands
 
-        } else if (scannedImage.equals("Blue Perimeter 1") {
+        } else if (scannedImage.equals("Blue Perimeter 1")) {
             // execute image 4 commands
 
         } else if (scannedImage.equals("Red Perimeter 1")) {
@@ -56,6 +80,7 @@ public class AutoMovement extends LinearOpMode {
             // execute image 7 commands
 
         } else if (scannedImage.equals("Rear Perimeter 1")){
+            // black path blue
             // execute image 8 commands
             // one square is 57.785cm
             r.turnRight(90);
@@ -68,14 +93,9 @@ public class AutoMovement extends LinearOpMode {
             r.turnRight(270);
             r.drive(213.8045);
             r.turnRight(90);
-            // lower down the hook things and latch on to the foundation
-            r.drive(-28.8925);
-            // then raise the hook things
-            r.driveLateral(58.42);
-            r.drive(23.495);
-            r.turnRight(270);
-            // lower down the hook things
-            r.drive(-115.57);s
+            // place the skystone onto the foundation
+            r.turnRight(90);
+            r.drive(110);
 
         }
     }
