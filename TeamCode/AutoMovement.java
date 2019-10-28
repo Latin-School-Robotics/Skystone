@@ -16,7 +16,8 @@ import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 
 @Autonomous(name = "AutoMovement", group = "Auto")
 public class AutoMovement extends LinearOpMode {
-
+    // TODO: Create the methods that are being called in this code
+    // !: Implement this image scanning correctly
     /*
      * I do not know if we want to create an object for this class. This is a rough
      * outline using the given images and not a physical field. This will determine
@@ -28,17 +29,37 @@ public class AutoMovement extends LinearOpMode {
      */
     // String scannedImage;
     // MEASUREMENTS ARE MADE IN DEGREES AND CENTIMETERS
-    // drive is driving forward, and when passed a negative parameter, it means drive backwards.
+    // drive is driving forward, and when passed a negative parameter, it means
+    // drive backwards.
     // turn right turns clockwise.
-    // 
+    //
     @Override
     public void runOpMode() {
         HardwareMap hm = new HardwareMap();
         Robot r = new Robot(hm);
-        
+
         if (scannedImage.equals("Front Perimeter 1")) {
             // execute image 1 commands
-
+            r.drive(60);
+            r.turnRight(90);
+            r.drive(57.785);
+            // then while moving laterally, scan the stones until we scan a skystone. Once
+            // we do, pick up the skystone.
+            r.turnRight(180);
+            r.drive(98.2345);
+            r.turnRight(270);
+            r.drive(250.7869);
+            r.turnRight(270);
+            r.drive(98.2345);
+            // place the skystone on the foundation, preferably on top of the other skystone
+            // lower the hook things and grab onto the foundation
+            r.drive(-75.1205);
+            // raise the hook things
+            r.driveLateralRight(70);
+            r.drive(23.495);
+            r.turnRight(90);
+            // lower the hook things
+            r.drive(-115.57);
 
         } else if (scannedImage.equals("Front Perimeter 2")) {
             // execute image 2 commands
@@ -46,7 +67,8 @@ public class AutoMovement extends LinearOpMode {
             r.drive(60);
             r.turnRight(270);
             r.drive(57.785);
-            // then while moving laterally, scan the stones until we scan a skystone. Once we do, pick up the skystone.
+            // then while moving laterally, scan the stones until we scan a skystone. Once
+            // we do, pick up the skystone.
             r.turnRight(180);
             r.drive(98.2345);
             r.turnRight(90);
@@ -63,7 +85,6 @@ public class AutoMovement extends LinearOpMode {
             // lower the hook things
             r.drive(-115.57);
 
-
         } else if (scannedImage.equals("Red Perimeter 2")) {
             // execute image 3 commands
 
@@ -78,8 +99,22 @@ public class AutoMovement extends LinearOpMode {
 
         } else if (scannedImage.equals("Rear Perimeter 2")) {
             // execute image 7 commands
-
-        } else if (scannedImage.equals("Rear Perimeter 1")){
+            // black path red
+            r.turnRight(270);
+            r.drive(41.275);
+            r.turnRight(270);
+            r.drive(75);
+            r.turnRight(270);
+            // then while moving laterally, scan the stones until we scan a skystone.
+            // Once we do, pick up the skystone.
+            r.turnRight(90);
+            r.drive(213.8045);
+            r.turnRight(270);
+            // You are at and facing the foundation
+            // place the skystone onto the foundation
+            r.turnRight(270);
+            r.drive(110);
+        } else if (scannedImage.equals("Rear Perimeter 1")) {
             // black path blue
             // execute image 8 commands
             // one square is 57.785cm
@@ -89,7 +124,8 @@ public class AutoMovement extends LinearOpMode {
             r.turnRight(90);
             r.drive(86.6775);
             r.turnRight(270);
-            // then while moving laterally, scan the stones until we scan a skystone. Once we do, pick up the skystone.
+            // then while moving laterally, scan the stones until we scan a skystone. Once
+            // we do, pick up the skystone.
             r.turnRight(270);
             r.drive(213.8045);
             r.turnRight(90);
