@@ -124,7 +124,7 @@ public class SkystoneNavigation extends LinearOpMode {
     private static final float bridgeX = 5.18f * mmPerInch;
     private static final float bridgeRotY = 59;                                 // Units are degrees
     private static final float bridgeRotZ = 180;
-
+    private String imageName;
     // Constants for perimeter targets
     private static final float halfField = 72 * mmPerInch;
     private static final float quadField  = 36 * mmPerInch;
@@ -137,6 +137,12 @@ public class SkystoneNavigation extends LinearOpMode {
     private float phoneYRotate    = 0;
     private float phoneZRotate    = 0;
 
+    public String setImageName(String imageName) {
+            this.imageName = imageName;
+    }
+    public String getImageName() {
+            return this.imageName();
+    }
     @Override public void runOpMode() {
         /*
          * Configure Vuforia by creating a Parameter object, and passing it to the Vuforia engine.
@@ -324,7 +330,6 @@ public class SkystoneNavigation extends LinearOpMode {
         // Note: To use the remote camera preview:
         // AFTER you hit Init on the Driver Station, use the "options menu" to select "Camera Stream"
         // Tap the preview window to receive a fresh image.
-
         targetsSkyStone.activate();
         while (!isStopRequested()) {
 
@@ -333,6 +338,7 @@ public class SkystoneNavigation extends LinearOpMode {
             for (VuforiaTrackable trackable : allTrackables) {
                 if (((VuforiaTrackableDefaultListener)trackable.getListener()).isVisible()) {
                     telemetry.addData("Visible Target", trackable.getName());
+                    setImageName(trackable.getName());
                     targetVisible = true;
 
                     // getUpdatedRobotLocation() will return null if no new information is available since

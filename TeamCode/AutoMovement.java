@@ -35,6 +35,8 @@ public class AutoMovement extends LinearOpMode {
     //
     @Override
     public void runOpMode() {
+        SkystoneNavigation sn = new SkystoneNavigation();
+        String scannedImage = sn.getImageName();
         HardwareMap hm = new HardwareMap();
         Robot r = new Robot(hm);
 
