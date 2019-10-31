@@ -41,7 +41,9 @@ public class AutoMovement extends LinearOpMode {
         Robot r = new Robot(hm);
 
         if (scannedImage.equals("Front Perimeter 1")) {
+            // Start the robot turned 45º facing image 1.
             // execute image 1 commands
+            r.turnRight(-15);
             r.drive(60);
             r.turnRight(90);
             r.drive(57.785);
@@ -65,7 +67,7 @@ public class AutoMovement extends LinearOpMode {
 
         } else if (scannedImage.equals("Front Perimeter 2")) {
             // execute image 2 commands
-            r.turnRight(5);
+            r.turnRight(15);
             r.drive(60);
             r.turnRight(270);
             r.drive(57.785);
