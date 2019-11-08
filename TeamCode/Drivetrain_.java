@@ -89,5 +89,16 @@ public class Drivetrain_ {
 	private correctHeading() {
 		internalHeading = internalHeading % (2*Math.PI);
 	}
+	public void drive(float direction, DcMotor fL, DcMotor fR, DcMotor bR, DcMotor bL) {
+		// 1440 * d / 10.16pi
+		fL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+		fR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+		bL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+		bR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+		fL.setTargetPosition(fL.getCurrentPosition() + (1440 * d) / (Math.PI * 10.16));
+		fR.setTargetPosition(fR.getCurrentPosition() + (1440 * d) / (Math.PI * 10.16));
+		bL.setTargetPosition(bL.getCurrentPosition() + (1440 * d) / (Math.PI * 10.16));
+		bR.setTargetPosition(bR.getCurrentPosition() + (1440 * d) / (Math.PI * 10.16));
+	}
  }
 
