@@ -29,10 +29,13 @@ public class AutoMovement extends LinearOpMode {
      */
     // String scannedImage;
     // MEASUREMENTS ARE MADE IN DEGREES AND CENTIMETERS
+    //TODO: Change rotation measurements to radians
+    // TODO: Ask about setHeading method
     // drive is driving forward, and when passed a negative parameter, it means
     // drive backwards.
     // turn right turns clockwise.
-    //
+    // Try to change turnright into setHeading
+    // I'm pretty sure setHeading does not just allow you to turn xº, you have to use the angle you want with respect to robot's current heading
     @Override
     public void runOpMode() {
         SkystoneNavigation sn = new SkystoneNavigation();
