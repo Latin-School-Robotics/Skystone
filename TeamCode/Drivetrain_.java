@@ -28,6 +28,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 public class Drivetrain_ {
 	DcMotor front_left_motor, front_right_motor, rear_left_motor, rear_right_motor;
 	double internalHeading;
+	DcMotor[] motorArray;
 
 	public Drivetrain_(HardwareMap hm) {
 		front_left_motor = hm.get(DcMotor.class, "front_left_motor");
@@ -38,8 +39,8 @@ public class Drivetrain_ {
 		front_left_motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         front_right_motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rear_left_motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        rear_right_motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
+		rear_right_motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+		motorArray = {front_left_motor, front_right_motor, rear_left_motor, rear_right_motor};
         //TODO: get it to work with encoders
 		// front_left_motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         // front_left_motor.setPower(1);
@@ -89,16 +90,18 @@ public class Drivetrain_ {
 	private correctHeading() {
 		internalHeading = internalHeading % (2*Math.PI);
 	}
-	public void drive(float direction, DcMotor fL, DcMotor fR, DcMotor bR, DcMotor bL) {
+
+	/*
+	drive method takes in distance you want to travel as a parameter, and it drives in the current direction that distance
+	*/ 
+	public void drive(float distance) {
 		// 1440 * d / 10.16pi
-		fL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-		fR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-		bL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-		bR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-		fL.setTargetPosition(fL.getCurrentPosition() + (1440 * direction) / (Math.PI * 10.16));
-		fR.setTargetPosition(fR.getCurrentPosition() + (1440 * direction) / (Math.PI * 10.16));
-		bL.setTargetPosition(bL.getCurrentPosition() + (1440 * direction) / (Math.PI * 10.16));
-		bR.setTargetPosition(bR.getCurrentPosition() + (1440 * direction) / (Math.PI * 10.16));
+		// TODO: Can setTargetPosition go backwards?
+		int direction = distance > 0 ? 1 : -1;
+		for (DcMotor dm : motorArray) {
+		dm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+		dm.setTargetPosition(dm.getCurrentPosition() + direction*(1440 * distance) / (Math.PI * 10.16));
+		}
 	}
  }
 

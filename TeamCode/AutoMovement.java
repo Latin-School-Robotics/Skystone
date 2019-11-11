@@ -28,8 +28,7 @@ public class AutoMovement extends LinearOpMode {
      * 
      */
     // String scannedImage;
-    // MEASUREMENTS ARE MADE IN DEGREES AND CENTIMETERS
-    //TODO: Change rotation measurements to radians
+    //!: MEASUREMENTS ARE MADE IN RADIANS AND CENTIMETERS
     // TODO: Ask about setHeading method
     // drive is driving forward, and when passed a negative parameter, it means
     // drive backwards.
@@ -46,17 +45,17 @@ public class AutoMovement extends LinearOpMode {
         if (scannedImage.equals("Front Perimeter 1")) {
             // Start the robot turned 15º facing image 1.
             // execute image 1 commands
-            r.turnRight(-15);
+            r.turnRight(-Math.PI / 12);
             r.drive(60);
-            r.turnRight(90);
+            r.turnRight(Math.PI / 2);
             r.drive(57.785);
             // then while moving laterally, scan the stones until we scan a skystone. Once
             // we do, pick up the skystone.
-            r.turnRight(180);
+            r.turnRight(Math.PI);
             r.drive(98.2345);
-            r.turnRight(270);
+            r.turnRight(3 * Math.PI / 2);
             r.drive(250.7869);
-            r.turnRight(270);
+            r.turnRight(3 * Math.PI / 2);
             r.drive(98.2345);
             // place the skystone on the foundation, preferably on top of the other skystone
             // lower the hook things and grab onto the foundation
@@ -64,24 +63,24 @@ public class AutoMovement extends LinearOpMode {
             // raise the hook things
             r.driveLateralRight(70);
             r.drive(23.495);
-            r.turnRight(90);
+            r.turnRight(Math.PI / 2);
             // lower the hook things
             r.drive(-115.57);
 
         } else if (scannedImage.equals("Front Perimeter 2")) {
               // Start the robot turned 15º facing image 2.
             // execute image 2 commands
-            r.turnRight(15);
+            r.turnRight(Math.PI / 12);
             r.drive(60);
-            r.turnRight(270);
+            r.turnRight(3 * Math.PI / 2);
             r.drive(57.785);
             // then while moving laterally, scan the stones until we scan a skystone. Once
             // we do, pick up the skystone.
-            r.turnRight(180);
+            r.turnRight(Math.PI;
             r.drive(98.2345);
-            r.turnRight(90);
+            r.turnRight(Math.PI / 2);
             r.drive(250.7869);
-            r.turnRight(90);
+            r.turnRight(Math.PI / 2);
             r.drive(98.2345);
             // place the skystone on the foundation, preferably on top of the other skystone
             // lower the hook things and grab onto the foundation
@@ -89,7 +88,7 @@ public class AutoMovement extends LinearOpMode {
             // raise the hook things
             r.driveLateralRight(70);
             r.drive(23.495);
-            r.turnRight(270);
+            r.turnRight(3 * Math.PI / 2);
             // lower the hook things
             r.drive(-115.57);
 
@@ -108,37 +107,37 @@ public class AutoMovement extends LinearOpMode {
         } else if (scannedImage.equals("Rear Perimeter 2")) {
             // execute image 7 commands
             // black path red
-            r.turnRight(270);
+            r.turnRight(3 * Math.PI / 2);
             r.drive(41.275);
-            r.turnRight(270);
+            r.turnRight(3 * Math.PI / 2);
             r.drive(75);
-            r.turnRight(270);
+            r.turnRight(3 * Math.PI / 2);
             // then while moving laterally, scan the stones until we scan a skystone.
             // Once we do, pick up the skystone.
-            r.turnRight(90);
+            r.turnRight(Math.PI / 2);
             r.drive(213.8045);
-            r.turnRight(270);
+            r.turnRight(3 * Math.PI / 2);
             // You are at and facing the foundation
             // place the skystone onto the foundation
-            r.turnRight(270);
+            r.turnRight(3 * Math.PI / 2);
             r.drive(110);
         } else if (scannedImage.equals("Rear Perimeter 1")) {
             // black path blue
             // execute image 8 commands
             // one square is 57.785cm
-            r.turnRight(90);
+            r.turnRight(Math.PI / 2);
             r.drive(38.5233333333);
             // in centimeters
-            r.turnRight(90);
+            r.turnRight(Math.PI / 2);
             r.drive(86.6775);
-            r.turnRight(270);
+            r.turnRight(3 * Math.PI / 2);
             // then while moving laterally, scan the stones until we scan a skystone. Once
             // we do, pick up the skystone.
-            r.turnRight(270);
+            r.turnRight(3 * Math.PI / 2);
             r.drive(213.8045);
-            r.turnRight(90);
+            r.turnRight(3 * Math.PI / 2);
             // place the skystone onto the foundation
-            r.turnRight(90);
+            r.turnRight(Math.PI / 2);
             r.drive(110);
 
         }
