@@ -31,21 +31,24 @@ public class AutoMovement extends LinearOpMode {
      * 
      */
     // String scannedImage;
-    //!: MEASUREMENTS ARE MADE IN RADIANS AND CENTIMETERS
-    // TODO: Ask about setHeading method
+    // !: MEASUREMENTS ARE MADE IN DEGREES AND CENTIMETERS
     // drive is driving forward, and when passed a negative parameter, it means
     // drive backwards.
     // turn right turns clockwise.
     // Try to change turnright into setHeading
-    // I'm pretty sure setHeading does not just allow you to turn xº, you have to use the angle you want with respect to robot's current heading
+    // I'm pretty sure setHeading does not just allow you to turn xº, you have to
+    // use the angle you want with respect to robot's current heading
     @Override
     public void runOpMode() {
         SkystoneNavigation sn = new SkystoneNavigation();
-        //String scannedImage = sn.getImageName();
+        // String scannedImage = sn.getImageName();
         String scannedImage = "blah";
         Drivetrain_ r = new Drivetrain_(this);
-        //r.setHeading(10, 0.4);
-       r.driveAtHeading(0, 0, 0, 0.3);
+        // driveAtHeading(heading, primary, lateral, power);
+        // heading is angle in degrees in reference to the robot's initial angle ,
+        // primary is the distance to drive using primary motors, lateral is the
+        // distance to drive using lateral motors, power is power
+        r.driveAtHeading(0, 0, 0, 0.3);
         if (scannedImage.equals("Front Perimeter 1")) {
             // Start the robot turned 15º facing image 1.
             // execute image 1 commands
@@ -65,14 +68,14 @@ public class AutoMovement extends LinearOpMode {
             // lower the hook things and grab onto the foundation
             r.drive(-75.1205);
             // raise the hook things
-            //r.driveLateralRight(70);
+            // r.driveLateralRight(70);
             r.drive(23.495);
             r.rotate(90);
             // lower the hook things
             r.drive(-115.57);
 
         } else if (scannedImage.equals("Front Perimeter 2")) {
-              // Start the robot turned 15º facing image 2.
+            // Start the robot turned 15º facing image 2.
             // execute image 2 commands
             r.rotate(15);
             r.drive(60);
@@ -90,7 +93,7 @@ public class AutoMovement extends LinearOpMode {
             // lower the hook things and grab onto the foundation
             r.drive(-75.1205);
             // raise the hook things
-            //r.driveLateralRight(70);
+            // r.driveLateralRight(70);
             r.drive(23.495);
             r.rotate(-90);
             // lower the hook things
