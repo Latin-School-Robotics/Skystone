@@ -1,4 +1,6 @@
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.robot.Robot;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -39,11 +41,11 @@ public class AutoMovement extends LinearOpMode {
     @Override
     public void runOpMode() {
         SkystoneNavigation sn = new SkystoneNavigation();
-        String scannedImage = sn.getImageName();
-        HardwareMap hm = new HardwareMap();
-        Robot robot = new Robot(hm);
-        Drivetrain_ r = new Drivetrain_(hm);
-
+        //String scannedImage = sn.getImageName();
+        String scannedImage = "blah";
+        Drivetrain_ r = new Drivetrain_(this);
+        //r.setHeading(10, 0.4);
+       r.driveAtHeading(0, 0, 0, 0.3);
         if (scannedImage.equals("Front Perimeter 1")) {
             // Start the robot turned 15º facing image 1.
             // execute image 1 commands
@@ -63,7 +65,7 @@ public class AutoMovement extends LinearOpMode {
             // lower the hook things and grab onto the foundation
             r.drive(-75.1205);
             // raise the hook things
-            r.driveLateralRight(70);
+            //r.driveLateralRight(70);
             r.drive(23.495);
             r.rotate(90);
             // lower the hook things
@@ -88,7 +90,7 @@ public class AutoMovement extends LinearOpMode {
             // lower the hook things and grab onto the foundation
             r.drive(-75.1205);
             // raise the hook things
-            r.driveLateralRight(70);
+            //r.driveLateralRight(70);
             r.drive(23.495);
             r.rotate(-90);
             // lower the hook things
