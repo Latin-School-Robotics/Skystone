@@ -17,8 +17,8 @@ import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 import org.firstinspires.ftc.teamcode.Drivetrain_;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 
-@Autonomous(name = "AutoMovement", group = "Autos")
-public class AutoMovement extends LinearOpMode {
+@Autonomous(name = "RedFoundationAuto", group = "Autos")
+public class RedFoundationAuto extends LinearOpMode {
     // TODO: Create the methods that are being called in this code
     // !: Implement this image scanning correctly
     /*
@@ -61,7 +61,6 @@ public class AutoMovement extends LinearOpMode {
         r.calibrate();
         // wait for init
         waitForStart();
-        if (scannedImage.equals("Front Perimeter 1")) {
         // Start the robot turned 15º facing image 1.
         // execute image 1 commands
         r.moveGrabs(1);
@@ -77,74 +76,4 @@ public class AutoMovement extends LinearOpMode {
         // raise the hook things
         r.moveGrabs(0.5);
         r.driveAtHeading(0, 0, 130 * calibration, 0.4);
-
-        }
-        else if (scannedImage.equals("Front Perimeter 2")) {
-        // Start the robot turned 15º facing image 2.
-        // execute image 2 commands
-        
-         r.rotate(15); 
-         r.drive(60); 
-         r.rotate(-90); 
-         r.drive(57.785); 
-         // then while moving laterally, scan the stones until we scan a skystone. Once 
-         // we do,pick up the skystone. 
-         r.rotate(180); 
-         r.drive(98.2345); 
-         r.rotate(90);
-         r.drive(250.7869); 
-         r.rotate(90); 
-         r.drive(98.2345); 
-         // place the skystone on the foundation, preferably on top of the other skystone 
-         // lower the hook things and grab onto the foundation 
-         r.drive(-75.1205);
-          // raise the hook things
-         r.driveLateralRight(100); 
-         } 
-         else if (scannedImage.equals("Red Perimeter 2")) { 
-        // execute image 3 commands
-        } else if (scannedImage.equals("Blue Perimeter 1")) { 
-            // execute image 4mcommands
-         } else if (scannedImage.equals("Red Perimeter 1")) { 
-        // execute image 5 commands
-         } else if (scannedImage.equals("Blue Perimeter 2")) { 
-             // execute image 6 commands
-         } else if (scannedImage.equals("Rear Perimeter 2")) { 
-             // execute image 7 commands 
-            // black path red 
-         r.turnAtHeading(0, calibration * 90 * angleCalibration, 0, 0.4); 
-         r.driveAtHeading(0, 41.275 * calibration, 0, 0.4); 
-         r.turnAtHeading(0, 90 * calibration * angleCalibration, 0, 0.4);
-         r.driveAtHeading(0, 75 * calibration, 0, 0.4); 
-         r.turnAtHeading(0, 90 * calibration * angleCalibration, 0, 0.4); 
-         // then while moving laterally, scan the stones until we scan a skystone. 
-         // Once we do, pick up the skystone. 
-         r.turnAtHeading(0, -90 * calibration * angleCalibration, 0, 0.4);
-         r.driveAtHeading(0, calibration * 213.8045, 0, 0.4); 
-         r.turnAtHeading(0, 90 * calibration * angleCalibration 0, 0.4); 
-         // You are at and facing the foundation 
-         //place the skystone onto the foundation 
-         r.turnAtHeading(0, 90 * calibration * angleCalibration, 0, 0.4); 
-         r.driveAtHeading(0, 110 * calibration, 0, 0.4); 
-             
-         } 
-         else if (scannedImage.equals("Rear Perimeter 1")) { 
-         // black path blue 
-         // execute image 8 commands
-        // one square is 57.785cm 
-         r.rotate(90);
-         r.drive(38.5233333333); 
-         // in centimeters 
-         r.rotate(90); 
-         r.drive(86.6775);
-         r.rotate(-90); 
-         // then while moving laterally, scan the stones until we scan a skystone. Once 
-         // we do, pick up the skystone. 
-         r.rotate(-90);
-         r.drive(213.8045); 
-         r.rotate(-90); 
-         // place the skystone onto the foundation
-         r.rotate(90); 
-         r.drive(110); }
-    }
 }

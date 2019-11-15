@@ -16,6 +16,7 @@ TODO:
 package org.firstinspires.ftc.teamcode;
 
 import static java.lang.Math.*;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
@@ -34,8 +35,11 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class Drivetrain_{
     DcMotor front_left_motor, front_right_motor, rear_left_motor, rear_right_motor;
+    Servo grabL, grabR;
+    DcMotor rotator;
     double internalHeading;
     DcMotor[] motorArray = new DcMotor[4];
+    // -750
     BNO055IMU imu;
     Orientation lastAngles = new Orientation();
     double globalAngle, startAngle;
@@ -51,8 +55,19 @@ public class Drivetrain_{
 };
 final static double SET_HEADING_THRESHOLD = 5;
 
+public void calibrate() {
+        //if(imu.)
+        op.idle();
+}
     public Drivetrain_(LinearOpMode op) {
         this.op = op;
+        rotator = op.hardwareMap.dcMotor.get("rotator");
+        rotator.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rotator.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rotator.setTargetPosition(0);
+        rotator.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        grabL = op.hardwareMap.servo.get("hand servo left");
+        grabR = op.hardwareMap.servo.get("hand servo right");
         front_left_motor = op.hardwareMap.dcMotor.get("front left drive");
         front_right_motor = op.hardwareMap.dcMotor.get("front right drive");
         rear_left_motor = op.hardwareMap.dcMotor.get("back left drive");
@@ -66,6 +81,11 @@ final static double SET_HEADING_THRESHOLD = 5;
         motorArray[1] = front_right_motor;
         motorArray[2] = rear_left_motor;
         motorArray[3] = rear_right_motor;
+        /*for(DcMotor m:motorArray) {
+                m.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                m.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+                m.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        }*/
         // TODO: get it to work with encoders
         // front_left_motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         // front_left_motor.setPower(1);
@@ -90,7 +110,15 @@ final static double SET_HEADING_THRESHOLD = 5;
         // and named "imu".
         imu = op.hardwareMap.get(BNO055IMU.class, "imu");
     }
+    
+    public DcMotor[] getMotors() {
+        return motorArray;
+    }
 
+    public void lowerRotator () {
+            rotator.setTargetPosition(-750);
+            rotator.setPower(0.5);
+    }
     /**
      * driveInDirection takes in calculatedRobotAngle and rotation and speed
      * 
@@ -118,6 +146,13 @@ final static double SET_HEADING_THRESHOLD = 5;
         return internalHeading;
     }
 
+    public void moveGrabs (boolean grab) {
+            // to go down grab is true
+            // to go up grab is false
+        grabL.setPosition(grab ? 1 : 0);
+        grabR.setPosition(grab ? 0 : 1);
+    }
+
     /*public double tareHeading() {
         internalHeading = 0;
     }*/
@@ -134,14 +169,28 @@ final static double SET_HEADING_THRESHOLD = 5;
         // 1440 * d / 10.16pi
         // motorArray order is fL, bL, fR, bR
         // signum just takes the sign (+/-) of the input
-        double sign = Math.signum((double) distance);
+        double sign = Math.signum(distance);
         // setTargetPosition itself will not go backwards. You must set power to
         // negative. Use the signum for this.
         // TODO: Will this method allow the motors to move concurrently?
+        boolean moving = true;
+         for (DcMotor dm : motorArray) {
+            dm.setTargetPosition((int)(dm.getCurrentPosition() + (360 * sign * distance) / (Math.PI * 10.16)));
+         }
+        while (moving){
         for (DcMotor dm : motorArray) {
+            op.telemetry.addData("target", dm.getTargetPosition());
+            op.telemetry.addData("current", dm.getCurrentPosition());
+            op.telemetry.addData("testing", moving);
+            
+            dm.setPower(0.4*sign);
             dm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            dm.setPower(sign);
-            dm.setTargetPosition((int)(dm.getCurrentPosition() + (1440 * sign * distance) / (Math.PI * 10.16)));
+            
+            if (dm.getTargetPosition() < dm.getCurrentPosition() ) {
+                moving = false;
+            }
+        }
+        op.telemetry.update();
         }
     }
     public void resetAngle() {
@@ -205,6 +254,9 @@ final static double SET_HEADING_THRESHOLD = 5;
         power *= STANDARD_VOLTAGE/14;
         while(!op.isStopRequested()) {
                 double error = getAngle()-heading;
+                 op.telemetry.addData("Error: ", error);
+                 op.telemetry.addData("getAngle: ", getAngle());
+                    op.telemetry.update();
                 if(Math.abs(error) < SET_HEADING_THRESHOLD) {
                         for(DcMotor m:motorArray)
                                 m.setPower(0);
@@ -221,6 +273,8 @@ final static double SET_HEADING_THRESHOLD = 5;
         return turned;
 }
 public void driveAtHeading(double heading, double primary, double lateral, double power) {
+        motorArray[0].setDirection(DcMotorSimple.Direction.REVERSE);
+        motorArray[2].setDirection(DcMotorSimple.Direction.REVERSE);
         setHeading(heading, power);
         op.telemetry.addData("Phase", "driveAtHeading");
         op.telemetry.update();
@@ -246,9 +300,56 @@ drive:
                                                    MOTOR_SIGNS[1][i]*lateral/distance +
                                                    MOTOR_SIGNS[2][i]* -error/DEGREES_AT_FULL_POWER));
 
-                for(int i = 0; i < 4; i++)
+                for(int i = 0; i < 4; i++){
+                        op.telemetry.addData("Encoder Status " + i, motorArray[i].getCurrentPosition()*directions[i] );
+        
                         if(keyMotors[i] && motorArray[i].getCurrentPosition()*directions[i] > targets[i]*directions[i])
                                 break drive;
+                }
+                op.telemetry.update();
+        }
+        for(DcMotor m:motorArray)
+                m.setPower(0);
+        op.sleep(wait);
+        for(int i = 0; i < 4; i++)
+                op.telemetry.addData("Encoder Status " + i, (motorArray[i].getCurrentPosition()*directions[i] > targets[i]*directions[i]) ? "ok" : "BAD");
+        op.telemetry.update();
+}
+public void turnAtHeading(double heading, double primary, double lateral, double power) {
+        motorArray[0].setDirection(DcMotorSimple.Direction.FORWARD);
+        motorArray[2].setDirection(DcMotorSimple.Direction.FORWARD);
+        setHeading(heading, power);
+        op.telemetry.addData("Phase", "driveAtHeading");
+        op.telemetry.update();
+        power *= STANDARD_VOLTAGE/14;
+
+        double distance = Math.hypot(primary, lateral);
+        int[] directions = new int[4];
+        double[] targets = new double[4];
+        boolean[] keyMotors = new boolean[4];
+        for(int i = 0; i < 4; i++) {
+                double delta = primary*MOTOR_SIGNS[0][i] + lateral*MOTOR_SIGNS[1][i];
+                directions[i] = (int) Math.signum(delta);
+                targets[i] = delta + motorArray[i].getCurrentPosition();
+                keyMotors[i] = Math.abs(delta) > .5*distance;
+        }
+
+drive:
+        while(!op.isStopRequested()) {
+                double error = getAngle()-heading;
+                for(int i = 0; i < 4; i++)
+                        motorArray[i].setPower(power* (
+                                                   MOTOR_SIGNS[0][i]*primary/distance +
+                                                   MOTOR_SIGNS[1][i]*lateral/distance +
+                                                   MOTOR_SIGNS[2][i]* -error/DEGREES_AT_FULL_POWER));
+
+                for(int i = 0; i < 4; i++){
+                        op.telemetry.addData("Encoder Status " + i, motorArray[i].getCurrentPosition()*directions[i] );
+        
+                        if(keyMotors[i] && motorArray[i].getCurrentPosition()*directions[i] > targets[i]*directions[i])
+                                break drive;
+                }
+                op.telemetry.update();
         }
         for(DcMotor m:motorArray)
                 m.setPower(0);
