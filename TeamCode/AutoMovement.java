@@ -69,8 +69,8 @@ public class AutoMovement extends LinearOpMode {
        r.moveGrabs(0.5);
         // place the skystone on the foundation, preferably on top of the other skystone
         r.driveAtHeading(0, 200*calibration, 0, 0.4);
-        r.turnAtHeading(0, -100 * calibration * angleCalibration, 0, 0.4);
-        r.driveAtHeading(0, -70 * calibration, 0, 0.4);
+        r.turnAtHeading(0, -90 * calibration * angleCalibration, 0, 0.4);
+        r.driveAtHeading(0, -60 * calibration, 0, 0.4);
         r.moveGrabs(1);
         // lower the hook things and grab onto the foundation
         r.driveAtHeading(0, 100 * calibration, 0, 0.4);

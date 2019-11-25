@@ -17,8 +17,8 @@ import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 import org.firstinspires.ftc.teamcode.Drivetrain_;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 
-@Autonomous(name = "RedFoundationAuto", group = "Autos")
-public class RedFoundationAuto extends LinearOpMode {
+@Autonomous(name = "BlueDragInAuto", group = "Autos")
+public class BlueDragInAuto extends LinearOpMode {
     // TODO: Create the methods that are being called in this code
     // !: Implement this image scanning correctly
     /*
@@ -60,23 +60,53 @@ public class RedFoundationAuto extends LinearOpMode {
         String scannedImage = "blah";
         Drivetrain_ r = new Drivetrain_(this);
         r.moveGrabs(false);
+        /*r.calibrate();
+        // wait for init
+        waitForStart();
+        // Start the robot turned 15º facing image 1.
+        // execute image 1 commands
+        r.moveGrabs(1);
+       r.lowerRotator();
+       r.moveGrabs(0.5);
+        // place the skystone on the foundation, preferably on top of the other skystone
+        r.driveAtHeading(0, 200*calibration, 0, 0.4);
+        r.turnAtHeading(0, 100 * calibration * angleCalibration, 0, 0.4);
+        r.driveAtHeading(0, -70 * calibration, 0, 0.4);
+        r.moveGrabs(1);
+        // lower the hook things and grab onto the foundation
+        r.driveAtHeading(0, 100 * calibration, 0, 0.4);
+        // raise the hook things
+        r.moveGrabs(0.5);
+        r.driveAtHeading(0, 0, -130 * calibration, 0.4);*/
         r.lowerRotator();
         r.calibrate();
         // wait for init
         waitForStart();
         // Start the robot turned 15º facing image 1.
         // execute image 1 commands
+        //r.moveGrabs();
+        //sleep(2000);
+      // r.lowerRotator();
         // place the skystone on the foundation, preferably on top of the other skystone
-        r.driveAtHeading(0, 0, -20 *calibration, 0.4);
+        r.driveAtHeading(0, 0, 20 *calibration, 0.4);
         r.driveAtHeading(0, 190*calibration, 0, 1);
-        r.driveAtHeading(-90 * angleCalibration, -58 * calibration, 0, 0.7);
+        r.driveAtHeading(90 * angleCalibration, -58 * calibration, 0, 0.7);
+        //r.driveAtHeading(0, 0, 5*calibration, 0.4);
+        //r.driveAtHeading(0, -40 * calibration, 0, 0.4);
         r.moveGrabs(true);
         sleep(1000);
         // lower the hook things and grab onto the foundation
-        r.driveAtHeading(-90, 100 * calibration, 0, 0.4);
+        r.driveAtHeading(90, 100 * calibration, 0, 0.4);
         // ends
         r.moveGrabs(false);
         sleep(1000);
-        r.driveAtHeading(-90, 0, 155 * calibration, 0.4);
+        /*
+        Until strafing is fixed, just turn and drive straight. 22 November 2019, 8:12 am
+        r.driveAtHeading(90, 0, -147 * calibration, 0.4);
+        */
+       // r.driveAtHeading(90, 0, -15*calibration, 0.5);
+       // r.driveAtHeading(90, -5 * calibration, 0 * calibration, 0.9);
+       // sleep(1000);
+        r.driveAtHeading(90, 0, -147 * calibration, 0.4);
 }
 }

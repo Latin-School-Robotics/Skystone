@@ -17,6 +17,8 @@ public class UnderBridgeAuto extends LinearOpMode{
         r.calibrate();
         // wait for init
         waitForStart();
-        r.driveAtHeading(0, 10 * calibration, 0 * calibration, 0.4);
+        r.lowerRotator();
+        // r.driveAtHeading(0, 10 * calibration, 0 * calibration, 0.4);
+        
 	}
 }

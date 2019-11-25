@@ -1,3 +1,4 @@
+
 /**
 Drivetrain_.java
 Created by Jackson Bremen
@@ -13,9 +14,11 @@ TODO:
 
 */
 
+
 package org.firstinspires.ftc.teamcode;
 
 import static java.lang.Math.*;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -109,6 +112,9 @@ public void calibrate() {
         // on a Core Device Interface Module, configured to be a sensor of type "AdaFruit IMU",
         // and named "imu".
         imu = op.hardwareMap.get(BNO055IMU.class, "imu");
+        imu.initialize(parameters);
+        op.telemetry.addData("Initialized: ", "Interial Movement Unit");
+        op.telemetry.update();
     }
     
     public DcMotor[] getMotors() {
@@ -116,8 +122,9 @@ public void calibrate() {
     }
 
     public void lowerRotator () {
-            rotator.setTargetPosition(-750);
+            rotator.setTargetPosition(-1000);
             rotator.setPower(0.5);
+            op.telemetry.addData("Linear Slide has been swooped", "");
     }
     /**
      * driveInDirection takes in calculatedRobotAngle and rotation and speed
@@ -166,6 +173,8 @@ public void calibrate() {
      * drives in the current direction that distance
      */
     public void drive(double distance) {
+        motorArray[0].setDirection(DcMotorSimple.Direction.REVERSE);
+        motorArray[2].setDirection(DcMotorSimple.Direction.REVERSE);
         // 1440 * d / 10.16pi
         // motorArray order is fL, bL, fR, bR
         // signum just takes the sign (+/-) of the input
@@ -277,6 +286,7 @@ public void driveAtHeading(double heading, double primary, double lateral, doubl
         motorArray[2].setDirection(DcMotorSimple.Direction.REVERSE);
         setHeading(heading, power);
         op.telemetry.addData("Phase", "driveAtHeading");
+        op.telemetry.addData("Driving: ", primary / 35 + "cm");
         op.telemetry.update();
         power *= STANDARD_VOLTAGE/14;
 
@@ -294,11 +304,13 @@ public void driveAtHeading(double heading, double primary, double lateral, doubl
 drive:
         while(!op.isStopRequested()) {
                 double error = getAngle()-heading;
-                for(int i = 0; i < 4; i++)
+                for(int i = 0; i < 4; i++){
                         motorArray[i].setPower(power* (
                                                    MOTOR_SIGNS[0][i]*primary/distance +
                                                    MOTOR_SIGNS[1][i]*lateral/distance +
                                                    MOTOR_SIGNS[2][i]* -error/DEGREES_AT_FULL_POWER));
+                        op.telemetry.addData("motorPower", motorArray[i].getPower());
+                }
 
                 for(int i = 0; i < 4; i++){
                         op.telemetry.addData("Encoder Status " + i, motorArray[i].getCurrentPosition()*directions[i] );
@@ -319,7 +331,8 @@ public void turnAtHeading(double heading, double primary, double lateral, double
         motorArray[0].setDirection(DcMotorSimple.Direction.FORWARD);
         motorArray[2].setDirection(DcMotorSimple.Direction.FORWARD);
         setHeading(heading, power);
-        op.telemetry.addData("Phase", "driveAtHeading");
+        op.telemetry.addData("Phase", "turnAtHeading");
+        op.telemetry.addData("Turning: ", primary / 35 + "º");
         op.telemetry.update();
         power *= STANDARD_VOLTAGE/14;
 

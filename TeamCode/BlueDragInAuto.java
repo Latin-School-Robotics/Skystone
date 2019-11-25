@@ -17,8 +17,8 @@ import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 import org.firstinspires.ftc.teamcode.Drivetrain_;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 
-@Autonomous(name = "RedFoundationAuto", group = "Autos")
-public class RedFoundationAuto extends LinearOpMode {
+@Autonomous(name = "BlueDragInAuto", group = "Autos")
+public class BlueDragInAuto extends LinearOpMode {
     // TODO: Create the methods that are being called in this code
     // !: Implement this image scanning correctly
     /*
@@ -67,16 +67,16 @@ public class RedFoundationAuto extends LinearOpMode {
         // Start the robot turned 15º facing image 1.
         // execute image 1 commands
         // place the skystone on the foundation, preferably on top of the other skystone
-        r.driveAtHeading(0, 0, -20 *calibration, 0.4);
+        r.driveAtHeading(0, 0, 20 *calibration, 0.4);
         r.driveAtHeading(0, 190*calibration, 0, 1);
-        r.driveAtHeading(-90 * angleCalibration, -58 * calibration, 0, 0.7);
+        r.driveAtHeading(90 * angleCalibration, -58 * calibration, 0, 0.7);
         r.moveGrabs(true);
         sleep(1000);
         // lower the hook things and grab onto the foundation
-        r.driveAtHeading(-90, 100 * calibration, 0, 0.4);
+        r.driveAtHeading(90, 100 * calibration, 0, 0.4);
         // ends
         r.moveGrabs(false);
         sleep(1000);
-        r.driveAtHeading(-90, 0, 155 * calibration, 0.4);
+        r.driveAtHeading(90, 0, -155 * calibration, 0.4);
 }
 }
