@@ -18,9 +18,9 @@ import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 import org.firstinspires.ftc.teamcode.New_Drivetrain_;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 
-@Autonomous(name = "BlueFoundationAuto", group = "Autos")
-public class BlueFoundationAuto extends LinearOpMode {
-    // ASSUME THAT TEAMMATE IS A DUD. IF THEY MOVE FORWARDS, USE THE GoodTeammateAuto.
+@Autonomous(name = "BlueGoodTeammateAuto", group = "Autos")
+public class BlueGoodTeammateAuto extends LinearOpMode {
+    // THIS IS ASSUMED THAT THE TEAMMATE IS GOOD. IF THEY ARE A DUD, USE THE FoundationAuto.
     // TODO: Create the methods that are being called in this code
     // !: Implement this image scanning correctly
     /*
@@ -68,17 +68,16 @@ public class BlueFoundationAuto extends LinearOpMode {
         r.calibrate();
         // wait for init
         waitForStart();
-        
         // Start the robot turned 15º facing image 1.
         // execute image 1 commands
         // move laterally away from wall
-        r.driveAtHeading(0, 0, 20 *calibration, 0.4);
+        r.driveAtHeading(0, 0, 60 *calibration, 0.5);
         // drive forwards towards the wall and under the bridge
         r.driveAtHeading(0, 190*calibration, 0, 1);
         // turn so that the grabs are facing the foundation
          // drive forward until you probably hit the foundation.
          // Both of these commands are smushed into this line. Reference above comments for driveAtHeading parameters
-        r.driveAtHeading(90 * angleCalibration, -58 * calibration, 0, 0.7);
+        r.driveAtHeading(90 * angleCalibration, -20 * calibration, 0, 0.7);
         // lower the grabs until they are grabbing the foundation
         r.moveGrabs(true);
         sleep(1000);
@@ -89,6 +88,9 @@ public class BlueFoundationAuto extends LinearOpMode {
         sleep(1000);
         // drive laterally until you are parked under the bridge
         // You might need to tweak the lateral parameter a bit
-        r.driveAtHeading(90, 0, -155 * calibration, 0.4);
+        // this chunk of code will effectively move the robot along the border of the foundation and park it adjacent to the allied bot under the bridge
+        r.driveAtHeading(90, 0, -100 * calibration, 0.6);
+        r.driveAtHeading(90, -38.75 * calibration, 0, 0.7);
+        r.driveAtHeading(90, 0, -55 * calibration, 0.7);
 }
 }

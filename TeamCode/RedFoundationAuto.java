@@ -1,4 +1,5 @@
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.robot.Robot;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -14,11 +15,12 @@ import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
-import org.firstinspires.ftc.teamcode.Drivetrain_;
+import org.firstinspires.ftc.teamcode.New_Drivetrain_;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 
 @Autonomous(name = "RedFoundationAuto", group = "Autos")
 public class RedFoundationAuto extends LinearOpMode {
+    // ASSUME THAT TEAMMATE IS A DUD. IF THEY MOVE FORWARDS, USE THE GoodTeammateAuto.
     // TODO: Create the methods that are being called in this code
     // !: Implement this image scanning correctly
     /*
@@ -58,9 +60,11 @@ public class RedFoundationAuto extends LinearOpMode {
         SkystoneNavigation sn = new SkystoneNavigation();
         // String scannedImage = sn.getImageName();
         String scannedImage = "blah";
-        Drivetrain_ r = new Drivetrain_(this);
+        New_Drivetrain_ r = new New_Drivetrain_(this);
+        // raise the grabs up
         r.moveGrabs(false);
-        r.lowerRotator();
+        // lower down the slide
+        // calibrates the imu
         r.calibrate();
         // wait for init
         waitForStart();

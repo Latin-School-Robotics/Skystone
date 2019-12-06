@@ -51,8 +51,7 @@ public class BlueDragInAuto extends LinearOpMode {
          * !: in the turnAtHeading(heading, primary, lateral, power) method,
          * primary*calibration is the amount of 1/2 degrees that you want to turn.
          */
-        //! Clockwise is negative, counterclockwise is positive. Measures relative to the
-        //! current position of the robot.
+        //! Clockwise is negative, counterclockwise is positive.
         final double calibration = 35;
         final double angleCalibration = 0.95;
         SkystoneNavigation sn = new SkystoneNavigation();

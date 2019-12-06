@@ -18,9 +18,9 @@ import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 import org.firstinspires.ftc.teamcode.New_Drivetrain_;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 
-@Autonomous(name = "BlueFoundationAuto", group = "Autos")
-public class BlueFoundationAuto extends LinearOpMode {
-    // ASSUME THAT TEAMMATE IS A DUD. IF THEY MOVE FORWARDS, USE THE GoodTeammateAuto.
+@Autonomous(name = "RedGoodTeammateAuto", group = "Autos")
+public class RedGoodTeammateAuto extends LinearOpMode {
+    // ASSUME THAT TEAMMATE can DRIVE . IF THEY MOVE FORWARDS, USE THE GoodTeammateAuto.
     // TODO: Create the methods that are being called in this code
     // !: Implement this image scanning correctly
     /*
@@ -68,27 +68,22 @@ public class BlueFoundationAuto extends LinearOpMode {
         r.calibrate();
         // wait for init
         waitForStart();
-        
         // Start the robot turned 15º facing image 1.
         // execute image 1 commands
-        // move laterally away from wall
-        r.driveAtHeading(0, 0, 20 *calibration, 0.4);
-        // drive forwards towards the wall and under the bridge
+        // place the skystone on the foundation, preferably on top of the other skystone
+        r.driveAtHeading(0, 0, -60 *calibration, 0.5);
         r.driveAtHeading(0, 190*calibration, 0, 1);
-        // turn so that the grabs are facing the foundation
-         // drive forward until you probably hit the foundation.
-         // Both of these commands are smushed into this line. Reference above comments for driveAtHeading parameters
-        r.driveAtHeading(90 * angleCalibration, -58 * calibration, 0, 0.7);
-        // lower the grabs until they are grabbing the foundation
+        r.driveAtHeading(-90 * angleCalibration, -20 * calibration, 0, 0.7);
         r.moveGrabs(true);
         sleep(1000);
-        // drive forwards (with respect to the robot; foward is the direction of the linear slide) until you are hitting the wall and the foundation is breaking the plane.
-        r.driveAtHeading(90, 100 * calibration, 0, 0.4);
-        // raise the grabs so that you are no longer holding the foundation
+        // lower the hook things and grab onto the foundation
+        r.driveAtHeading(-90, 100 * calibration, 0, 0.4);
+        // ends
         r.moveGrabs(false);
         sleep(1000);
-        // drive laterally until you are parked under the bridge
-        // You might need to tweak the lateral parameter a bit
-        r.driveAtHeading(90, 0, -155 * calibration, 0.4);
+   //     r.driveAtHeading(-90, 0, 155 * calibration, 0.4);
+        r.driveAtHeading(-90, 0, 100 * calibration, 0.6);
+        r.driveAtHeading(-90, -38.75 * calibration, 0, 0.7);
+        r.driveAtHeading(-90, 0, 55 * calibration, 0.7);
 }
 }
