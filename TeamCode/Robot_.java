@@ -1,6 +1,9 @@
 import java.util.*;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+
+import org.firstinspires.ftc.teamcode.Drivetrain_;
+
 import com.qualcomm.robotcore.eventloop.opmode.HardwareMap;
 
 
@@ -124,6 +127,9 @@ public class Robot_ {
     public void double getHeading() {
         // TODO implement here
         return Drivetrain.getHeading();
+    }
+    public Drivetrain_ getDrivetrain() {
+        return this.Drivetrain;
     }
 
 }

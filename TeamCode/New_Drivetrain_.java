@@ -1,4 +1,3 @@
-
 /**
 Drivetrain_.java
 Created by Jackson Bremen
@@ -36,10 +35,10 @@ import com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-public class Drivetrain_{
+
+public class New_Drivetrain_{
     DcMotor front_left_motor, front_right_motor, rear_left_motor, rear_right_motor;
     Servo grabL, grabR;
-    DcMotor rotator;
     double internalHeading;
     DcMotor[] motorArray = new DcMotor[4];
     // -750
@@ -62,19 +61,16 @@ public void calibrate() {
         //if(imu.)
         op.idle();
 }
-    public Drivetrain_(LinearOpMode op) {
+    public New_Drivetrain_(LinearOpMode op) {
         this.op = op;
-        rotator = op.hardwareMap.dcMotor.get("rotator");
-        rotator.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rotator.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rotator.setTargetPosition(0);
-        rotator.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        
         grabL = op.hardwareMap.servo.get("hand servo left");
         grabR = op.hardwareMap.servo.get("hand servo right");
         front_left_motor = op.hardwareMap.dcMotor.get("front left drive");
         front_right_motor = op.hardwareMap.dcMotor.get("front right drive");
         rear_left_motor = op.hardwareMap.dcMotor.get("back left drive");
         rear_right_motor = op.hardwareMap.dcMotor.get("back right drive");
+        
 
         front_left_motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         front_right_motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -121,11 +117,6 @@ public void calibrate() {
         return motorArray;
     }
 
-    public void lowerRotator () {
-            rotator.setTargetPosition(-1000);
-            rotator.setPower(0.5);
-            op.telemetry.addData("Linear Slide has been swooped", "");
-    }
     /**
      * driveInDirection takes in calculatedRobotAngle and rotation and speed
      * 
