@@ -17,6 +17,7 @@ TODO:
 package org.firstinspires.ftc.teamcode;
 
 import static java.lang.Math.*;
+import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -34,19 +35,25 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 
 
 public class New_Drivetrain_{
     DcMotor front_left_motor, front_right_motor, rear_left_motor, rear_right_motor;
+    DcMotor rope;
     Servo grabL, grabR;
+    Servo claw;
     double internalHeading;
     DcMotor[] motorArray = new DcMotor[4];
+    ColorSensor color;
+    VoltageSensor[] voltageSensors;
     // -750
     BNO055IMU imu;
     Orientation lastAngles = new Orientation();
     double globalAngle, startAngle;
     final static double DEGREES_AT_FULL_POWER = 30;
     final static double STANDARD_VOLTAGE = 13;
+    
     LinearOpMode op;
     long wait = 500;
     final static double[][] MOTOR_SIGNS = {
@@ -55,6 +62,9 @@ public class New_Drivetrain_{
         { 1,-1,-1, 1},    //Right
         {-1, 1,-1, 1},    //Counterclockwise
 };
+//final static double driveCalibration = 32; 
+final static double driveCalibration = 32;
+final static double angleCalibration = 0.92;
 final static double SET_HEADING_THRESHOLD = 5;
 
 public void calibrate() {
@@ -66,25 +76,20 @@ public void calibrate() {
         
         grabL = op.hardwareMap.servo.get("hand servo left");
         grabR = op.hardwareMap.servo.get("hand servo right");
+        claw = op.hardwareMap.servo.get("claw");
         front_left_motor = op.hardwareMap.dcMotor.get("front left drive");
         front_right_motor = op.hardwareMap.dcMotor.get("front right drive");
         rear_left_motor = op.hardwareMap.dcMotor.get("back left drive");
         rear_right_motor = op.hardwareMap.dcMotor.get("back right drive");
-        
-
-        front_left_motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        front_right_motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        rear_left_motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        rear_right_motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motorArray[0] = front_left_motor;
         motorArray[1] = front_right_motor;
         motorArray[2] = rear_left_motor;
         motorArray[3] = rear_right_motor;
-        /*for(DcMotor m:motorArray) {
+        for(DcMotor m:motorArray) {
                 m.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 m.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
                 m.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        }*/
+        }
         // TODO: get it to work with encoders
         // front_left_motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         // front_left_motor.setPower(1);
@@ -97,6 +102,13 @@ public void calibrate() {
 
         // rear_right_motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         // rear_right_motor.setPower(1);
+        
+        rope = op.hardwareMap.dcMotor.get("vertical elevator");
+        rope.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rope.setTargetPosition(-260);
+        
+        rope.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+          
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
 
         parameters.mode                = BNO055IMU.SensorMode.IMU;
@@ -111,7 +123,10 @@ public void calibrate() {
         imu.initialize(parameters);
         op.telemetry.addData("Initialized: ", "Interial Movement Unit");
         op.telemetry.update();
-    }
+
+        color = op.hardwareMap.colorSensor.get("color");
+        color.enableLed(true);
+        }
     
     public DcMotor[] getMotors() {
         return motorArray;
@@ -144,6 +159,20 @@ public void calibrate() {
         return internalHeading;
     }
 
+    public boolean isSkyStone(){
+        return (color.red() + color.green() < 3.4 * color.blue());
+    }
+    
+    public void ropePos(int target, double speed){
+        rope.setTargetPosition(target);
+        rope.setPower(speed);
+        
+    }
+
+    public void claw (boolean close){
+        claw.setPosition(close ? 1 : 0);
+    }
+
     public void moveGrabs (boolean grab) {
             // to go down grab is true
             // to go up grab is false
@@ -163,7 +192,7 @@ public void calibrate() {
      * drive method takes in distance you want to travel as a parameter, and it
      * drives in the current direction that distance
      */
-    public void drive(double distance) {
+   /* public void drive(double distance) {
         motorArray[0].setDirection(DcMotorSimple.Direction.REVERSE);
         motorArray[2].setDirection(DcMotorSimple.Direction.REVERSE);
         // 1440 * d / 10.16pi
@@ -179,9 +208,9 @@ public void calibrate() {
          }
         while (moving){
         for (DcMotor dm : motorArray) {
-            op.telemetry.addData("target", dm.getTargetPosition());
-            op.telemetry.addData("current", dm.getCurrentPosition());
-            op.telemetry.addData("testing", moving);
+          //  op.telemetry.addData("target", dm.getTargetPosition());
+        //    op.telemetry.addData("current", dm.getCurrentPosition());
+          //  op.telemetry.addData("testing", moving);
             
             dm.setPower(0.4*sign);
             dm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -192,7 +221,7 @@ public void calibrate() {
         }
         op.telemetry.update();
         }
-    }
+    }*/
     public void resetAngle() {
         lastAngles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         globalAngle = 0;
@@ -254,8 +283,8 @@ public void calibrate() {
         power *= STANDARD_VOLTAGE/14;
         while(!op.isStopRequested()) {
                 double error = getAngle()-heading;
-                 op.telemetry.addData("Error: ", error);
-                 op.telemetry.addData("getAngle: ", getAngle());
+             //    op.telemetry.addData("Error: ", error);
+             //    op.telemetry.addData("getAngle: ", getAngle());
                     op.telemetry.update();
                 if(Math.abs(error) < SET_HEADING_THRESHOLD) {
                         for(DcMotor m:motorArray)
@@ -266,20 +295,23 @@ public void calibrate() {
                         motorArray[i].setPower(power*MOTOR_SIGNS[2][i]* -Math.signum(error));
                 turned = true;
         }
-        op.telemetry.addData("Turned", turned);
-        op.telemetry.update();
+   //     op.telemetry.addData("Turned", turned);
+//        op.telemetry.update();
         if(turned)
                 op.sleep(wait);
         return turned;
 }
-public void driveAtHeading(double heading, double primary, double lateral, double power) {
+public void driveAtHeading(double ang, double prim, double lat, double power) {
+        double primary = prim * driveCalibration;
+        double lateral = lat * driveCalibration;
+        double heading = ang * angleCalibration;
         motorArray[0].setDirection(DcMotorSimple.Direction.REVERSE);
         motorArray[2].setDirection(DcMotorSimple.Direction.REVERSE);
         setHeading(heading, power);
-        op.telemetry.addData("Phase", "driveAtHeading");
-        op.telemetry.addData("Driving: ", primary / 35 + "cm");
-        op.telemetry.update();
-        power *= STANDARD_VOLTAGE/14;
+  //      op.telemetry.addData("Phase", "driveAtHeading");
+  //      op.telemetry.addData("Driving: ", primary / 35 + "cm");
+   //     op.telemetry.update();
+        power *= STANDARD_VOLTAGE/getVoltage();
 
         double distance = Math.hypot(primary, lateral);
         int[] directions = new int[4];
@@ -291,7 +323,9 @@ public void driveAtHeading(double heading, double primary, double lateral, doubl
                 targets[i] = delta + motorArray[i].getCurrentPosition();
                 keyMotors[i] = Math.abs(delta) > .5*distance;
         }
-
+//https://www.quora.com/Why-do-we-use-a-colon-in-Java
+// drive is just a label for the loop, because we want to know what loop to break out of
+// that's why we do break drive;
 drive:
         while(!op.isStopRequested()) {
                 double error = getAngle()-heading;
@@ -300,66 +334,32 @@ drive:
                                                    MOTOR_SIGNS[0][i]*primary/distance +
                                                    MOTOR_SIGNS[1][i]*lateral/distance +
                                                    MOTOR_SIGNS[2][i]* -error/DEGREES_AT_FULL_POWER));
-                        op.telemetry.addData("motorPower", motorArray[i].getPower());
+                       // op.telemetry.addData("motorPower", motorArray[i].getPower());
                 }
 
                 for(int i = 0; i < 4; i++){
-                        op.telemetry.addData("Encoder Status " + i, motorArray[i].getCurrentPosition()*directions[i] );
+                        //op.telemetry.addData("Encoder Status " + i, motorArray[i].getCurrentPosition()*directions[i] );
         
                         if(keyMotors[i] && motorArray[i].getCurrentPosition()*directions[i] > targets[i]*directions[i])
                                 break drive;
                 }
-                op.telemetry.update();
+                //op.telemetry.update();
         }
         for(DcMotor m:motorArray)
                 m.setPower(0);
         op.sleep(wait);
-        for(int i = 0; i < 4; i++)
-                op.telemetry.addData("Encoder Status " + i, (motorArray[i].getCurrentPosition()*directions[i] > targets[i]*directions[i]) ? "ok" : "BAD");
-        op.telemetry.update();
+    //    for(int i = 0; i < 4; i++)
+   //             op.telemetry.addData("Encoder Status " + i, (motorArray[i].getCurrentPosition()*directions[i] > targets[i]*directions[i]) ? "ok" : "BAD");
+  //      op.telemetry.update();
 }
-public void turnAtHeading(double heading, double primary, double lateral, double power) {
-        motorArray[0].setDirection(DcMotorSimple.Direction.FORWARD);
-        motorArray[2].setDirection(DcMotorSimple.Direction.FORWARD);
-        setHeading(heading, power);
-        op.telemetry.addData("Phase", "turnAtHeading");
-        op.telemetry.addData("Turning: ", primary / 35 + "º");
-        op.telemetry.update();
-        power *= STANDARD_VOLTAGE/14;
-
-        double distance = Math.hypot(primary, lateral);
-        int[] directions = new int[4];
-        double[] targets = new double[4];
-        boolean[] keyMotors = new boolean[4];
-        for(int i = 0; i < 4; i++) {
-                double delta = primary*MOTOR_SIGNS[0][i] + lateral*MOTOR_SIGNS[1][i];
-                directions[i] = (int) Math.signum(delta);
-                targets[i] = delta + motorArray[i].getCurrentPosition();
-                keyMotors[i] = Math.abs(delta) > .5*distance;
+double getVoltage() {
+        double result = Double.POSITIVE_INFINITY;
+        for (VoltageSensor sensor : op.hardwareMap.voltageSensor) {
+            double voltage = sensor.getVoltage();
+            if (voltage > 0) {
+                result = Math.min(result, voltage);
+            }
         }
-
-drive:
-        while(!op.isStopRequested()) {
-                double error = getAngle()-heading;
-                for(int i = 0; i < 4; i++)
-                        motorArray[i].setPower(power* (
-                                                   MOTOR_SIGNS[0][i]*primary/distance +
-                                                   MOTOR_SIGNS[1][i]*lateral/distance +
-                                                   MOTOR_SIGNS[2][i]* -error/DEGREES_AT_FULL_POWER));
-
-                for(int i = 0; i < 4; i++){
-                        op.telemetry.addData("Encoder Status " + i, motorArray[i].getCurrentPosition()*directions[i] );
-        
-                        if(keyMotors[i] && motorArray[i].getCurrentPosition()*directions[i] > targets[i]*directions[i])
-                                break drive;
-                }
-                op.telemetry.update();
-        }
-        for(DcMotor m:motorArray)
-                m.setPower(0);
-        op.sleep(wait);
-        for(int i = 0; i < 4; i++)
-                op.telemetry.addData("Encoder Status " + i, (motorArray[i].getCurrentPosition()*directions[i] > targets[i]*directions[i]) ? "ok" : "BAD");
-        op.telemetry.update();
-}
+        return result;
+    }
 }

@@ -20,75 +20,135 @@ import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 
 @Autonomous(name = "BlueFoundationAuto", group = "Autos")
 public class BlueFoundationAuto extends LinearOpMode {
-    // ASSUME THAT TEAMMATE IS A DUD. IF THEY MOVE FORWARDS, USE THE GoodTeammateAuto.
-    // TODO: Create the methods that are being called in this code
-    // !: Implement this image scanning correctly
-    /*
-     * I do not know if we want to create an object for this class. This is a rough
-     * outline using the given images and not a physical field. This will determine
-     * what autonomous path the robot takes depending on where it starts. The code
-     * that stores the names of the pictures in SkystoneNavigation is
-     * "trackable.getName()". Parse that information, then store the image number as
-     * an int.
-     * 
-     */
-    // String scannedImage;
-    // !: MEASUREMENTS ARE MADE IN DEGREES AND CENTIMETERS
-    // !: THIS AUTONOMOUS DRAGS THE FOUNDATION IN AND THEN MOVES LATERALLY UNDER THE BRIDGE
-    // drive is driving forward, and when passed a negative parameter, it means
-    // drive backwards.
-    // turn right turns clockwise.
-    // Try to change turnright into setHeading
-    // I'm pretty sure setHeading does not just allow you to turn xº, you have to
-    // use the angle you want with respect to robot's current heading
     @Override
     public void runOpMode() {
-        // !: Use the turnAt(heading, primary, lateral, power) method for
-        //! turning.
-        /* 
-        *Use the driveAtheading(heading, primary, lateral, power) method for driving.
-        *heading = 0, primary = forward/backwardDistance * calibration, lateral = lateralDistance * calibration, power = power.
-        */
-        /*
-         * !: in the turnAtHeading(heading, primary, lateral, power) method,
-         * primary*calibration is the amount of 1/2 degrees that you want to turn.
-         */
-        //! Clockwise is negative, counterclockwise is positive. Measures relative to the
-        //! current position of the robot.
-        final double calibration = 35;
-        final double angleCalibration = 0.95;
-        SkystoneNavigation sn = new SkystoneNavigation();
-        // String scannedImage = sn.getImageName();
-        String scannedImage = "blah";
-        New_Drivetrain_ r = new New_Drivetrain_(this);
-        // raise the grabs up
-        r.moveGrabs(false);
+        New_Drivetrain_ r;
+        r = new New_Drivetrain_(this);
+        
         // lower down the slide
         // calibrates the imu
         r.calibrate();
-        // wait for init
-        waitForStart();
-        
-        // Start the robot turned 15º facing image 1.
-        // execute image 1 commands
-        // move laterally away from wall
-        r.driveAtHeading(0, 0, 20 *calibration, 0.4);
-        // drive forwards towards the wall and under the bridge
-        r.driveAtHeading(0, 190*calibration, 0, 1);
-        // turn so that the grabs are facing the foundation
-         // drive forward until you probably hit the foundation.
-         // Both of these commands are smushed into this line. Reference above comments for driveAtHeading parameters
-        r.driveAtHeading(90 * angleCalibration, -58 * calibration, 0, 0.7);
-        // lower the grabs until they are grabbing the foundation
-        r.moveGrabs(true);
-        sleep(1000);
-        // drive forwards (with respect to the robot; foward is the direction of the linear slide) until you are hitting the wall and the foundation is breaking the plane.
-        r.driveAtHeading(90, 100 * calibration, 0, 0.4);
-        // raise the grabs so that you are no longer holding the foundation
+
+        //Init loop until started
+       
+
+        //Which 'lane' of the bridge to use: true = closer to center of field, false = closer to wall
+        boolean centralLane = true;
+
+
+        while(!isStarted()){
+
+            if(gamepad1.dpad_up){
+                centralLane = true;
+            }
+            if(gamepad1.dpad_down){
+                centralLane = false;
+            }
+            telemetry.addData("Lane:", (centralLane?"central side":"wall side") );
+            telemetry.update();
+
+
+            idle(); //I think we're supposed to keep this method here but I actually have no idea what it does
+        }
+        //waitForStart();
+
+        // raise the grabs up (not in earlier so we dont move during init)
         r.moveGrabs(false);
+        r.claw(false);
+
+        //Start lined up with block closet to bridge, facing towards block
+        //Drive forward to block
+        r.ropePos(-600,1);
+        r.driveAtHeading(0, 70 , 0, 0.6);
+        
+        //Check 6 blocks (grab last one by default) 
+        int block = 1;
+        while(!r.isSkyStone() && block < 3){
+            //Move left to next block
+            r.driveAtHeading(0,0,26,0.5);
+            block++;
+            telemetry.addData("block", block);
+            telemetry.update();
+            
+        }
+        
+        //line up centered on block
+        ///r.driveAtHeading(0,0,11,0.5); //dont mirror this because it moves this way regardless of team, also it needs to move back this far later and also not mirror that to balance out this change
+        r.driveAtHeading(0,4,0,0.5);
+        //Lower and grab
+        r.ropePos(-80,0.8);
+        sleep(500);
+        r.claw(true);
+        sleep(300);
+        r.ropePos(-200, 0.5);
+     
+        
+
+        //move back
+        if(centralLane){
+            r.driveAtHeading(0,-17,0,0.7);
+        }
+        else {
+            r.driveAtHeading(0,-87,0,0.7);
+        }
+
+    
+        //Move left to account for blocks checked
+        if (block != 1)
+            r.driveAtHeading(0,0, (block - 1) * -28.5, 0.8);
+
+        //Turn and drive under bridge
+        r.ropePos(-50, 0.5);
+        r.driveAtHeading(90, 180, 0,0.9);
+    
+        //r.driveAtHeading(0,0, -195 - 20 * (block - 1), 0.8);
+        //Lift rope and drive towards foundation
+        r.ropePos(-1200, 0.5);
+        if(centralLane){
+            r.driveAtHeading(3, 16.2, 0, 0.7);
+        }
+        else {
+            r.driveAtHeading(3, 90, 0, 0.7);
+        }
+        
+
+        //drop block
+        r.claw(false);
+        //sleep(500);
+        
+        //Move left
+        r.driveAtHeading(-6, 10, -35, 0.5);
+       // sleep(500);
+        
+        //Grab tray with claw
+        r.ropePos(15, 0.6);
+        sleep(1100);
+        
+        
+        //back up with tray to corner
+        r.driveAtHeading(0, -95, 0, 0.8);
+        
+        
+        //release tray
+        r.ropePos(-1000, 0.5);
         sleep(1000);
-        // drive laterally until you are parked under the bridge
-        // You might need to tweak the lateral parameter a bit
-        r.driveAtHeading(90, 0, -155 * calibration, 0.4);
-}
+        
+        //Move right and then lower elevator
+        r.driveAtHeading(6, 0, 100, 0.9);
+        r.ropePos(0, 0.9);
+        r.claw(true);
+        if(centralLane){
+        //Drive diagonally back to blocks
+        r.driveAtHeading(0, 57, 0, 0.9);
+        
+          r.driveAtHeading(-90, 50, 0, 0.9);
+          r.claw(false);
+        }
+        else {
+        
+        //Drive diagonally back to blocks
+        r.driveAtHeading(0, 0, 55, 0.9);
+        }
+       
+    }
 }
