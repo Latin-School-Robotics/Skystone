@@ -81,19 +81,15 @@ public void calibrate() {
         front_right_motor = op.hardwareMap.dcMotor.get("front right drive");
         rear_left_motor = op.hardwareMap.dcMotor.get("back left drive");
         rear_right_motor = op.hardwareMap.dcMotor.get("back right drive");
-        front_left_motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        front_right_motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        rear_left_motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        rear_right_motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motorArray[0] = front_left_motor;
         motorArray[1] = front_right_motor;
         motorArray[2] = rear_left_motor;
         motorArray[3] = rear_right_motor;
-        /*for(DcMotor m:motorArray) {
+        for(DcMotor m:motorArray) {
                 m.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 m.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
                 m.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        }*/
+        }
         // TODO: get it to work with encoders
         // front_left_motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         // front_left_motor.setPower(1);
@@ -164,7 +160,7 @@ public void calibrate() {
     }
 
     public boolean isSkyStone(){
-        return (color.red() + color.green() < 2.8 * color.blue());
+        return (color.red() + color.green() < 3.4 * color.blue());
     }
     
     public void ropePos(int target, double speed){
@@ -338,16 +334,16 @@ drive:
                                                    MOTOR_SIGNS[0][i]*primary/distance +
                                                    MOTOR_SIGNS[1][i]*lateral/distance +
                                                    MOTOR_SIGNS[2][i]* -error/DEGREES_AT_FULL_POWER));
-                        op.telemetry.addData("motorPower", motorArray[i].getPower());
+                       // op.telemetry.addData("motorPower", motorArray[i].getPower());
                 }
 
                 for(int i = 0; i < 4; i++){
-                        op.telemetry.addData("Encoder Status " + i, motorArray[i].getCurrentPosition()*directions[i] );
+                        //op.telemetry.addData("Encoder Status " + i, motorArray[i].getCurrentPosition()*directions[i] );
         
                         if(keyMotors[i] && motorArray[i].getCurrentPosition()*directions[i] > targets[i]*directions[i])
                                 break drive;
                 }
-                op.telemetry.update();
+                //op.telemetry.update();
         }
         for(DcMotor m:motorArray)
                 m.setPower(0);

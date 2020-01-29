@@ -58,13 +58,14 @@ public class BlueFoundationAuto extends LinearOpMode {
 
         //Start lined up with block closet to bridge, facing towards block
         //Drive forward to block
+        r.ropePos(-600,1);
         r.driveAtHeading(0, 70 , 0, 0.6);
         
         //Check 6 blocks (grab last one by default) 
         int block = 1;
         while(!r.isSkyStone() && block < 3){
             //Move left to next block
-            r.driveAtHeading(0,0,28.5,0.5);
+            r.driveAtHeading(0,0,26,0.5);
             block++;
             telemetry.addData("block", block);
             telemetry.update();
@@ -72,15 +73,15 @@ public class BlueFoundationAuto extends LinearOpMode {
         }
         
         //line up centered on block
-        r.driveAtHeading(0,0,11,0.5); //dont mirror this because it moves this way regardless of team, also it needs to move back this far later and also not mirror that to balance out this change
+        ///r.driveAtHeading(0,0,11,0.5); //dont mirror this because it moves this way regardless of team, also it needs to move back this far later and also not mirror that to balance out this change
         r.driveAtHeading(0,4,0,0.5);
         //Lower and grab
-        r.ropePos(-80,0.3);
+        r.ropePos(-80,0.8);
         sleep(500);
         r.claw(true);
         sleep(300);
-        r.ropePos(-200, 0.3);
-        sleep(200); //maybe delete
+        r.ropePos(-200, 0.5);
+     
         
 
         //move back
@@ -125,7 +126,7 @@ public class BlueFoundationAuto extends LinearOpMode {
         
         
         //back up with tray to corner
-        r.driveAtHeading(0, -93, 0, 0.8);
+        r.driveAtHeading(0, -95, 0, 0.8);
         
         
         //release tray
@@ -138,7 +139,7 @@ public class BlueFoundationAuto extends LinearOpMode {
         r.claw(true);
         if(centralLane){
         //Drive diagonally back to blocks
-        r.driveAtHeading(0, 55, 0, 0.9);
+        r.driveAtHeading(0, 57, 0, 0.9);
         
           r.driveAtHeading(-90, 50, 0, 0.9);
           r.claw(false);
