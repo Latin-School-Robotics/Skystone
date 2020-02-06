@@ -31,6 +31,7 @@ Script made
 Added basic drive func
 Added grab wheel spin
 Added slow trigger
+Updated drive func
  */
 
 
@@ -94,33 +95,18 @@ public class TB3TeleOp extends LinearOpMode {
 
             //Player 1
 
-            //Foward Back
-            leftFront.setPower(gamepad1.right_stick_y);
-            rightFront.setPower(gamepad1.right_stick_y*-1);
-            leftBack.setPower(gamepad1.right_stick_y*-1);
-            rightBack.setPower(gamepad1.right_stick_y);
 
-            //Rotate
-
-            leftFront.setPower(gamepad1.left_stick_x);
-            rightFront.setPower(gamepad1.left_stick_x);
-            leftBack.setPower(gamepad1.left_stick_x);
-            rightBack.setPower(gamepad1.left_stick_x);
-
-            //Strafe
-            leftFront.setPower(gamepad1.right_stick_x);
-            rightFront.setPower(gamepad1.right_stick_x);
-            leftBack.setPower(gamepad1.right_stick_x*-1);
-            rightBack.setPower(gamepad1.right_stick_x*-1);
-
-            //Speed modifier
-
+            // Drive
             speedMultP1 = 1.0f -gamepad1.right_trigger;
 
-            leftFront.setPower(leftFront.getPower()*speedMultP1);
-            rightFront.setPower(rightFront.getPower()*speedMultP1);
-            leftBack.setPower(leftBack.getPower()*speedMultP1);
-            rightBack.setPower(rightBack.getPower()*speedMultP1);
+            float x = gamepad1.right_stick_x;
+            float y = -gamepad1.left_stick_y;
+            float r = gamepad1.left_stick_x;
+
+            leftBack.setPower((y - x + r) * speedMultP1);
+            leftFront.setPower((y + x + r) * speedMultP1);
+            rightBack.setPower((y + x - r) * speedMultP1);
+            rightFront.setPower((y - x - r) * speedMultP1);
 
             //telemetry
             telemetry.addData("Speed mult: ", speedMultP1);
