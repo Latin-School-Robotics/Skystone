@@ -121,7 +121,7 @@ public class BlueFoundationAuto extends LinearOpMode {
        // sleep(500);
         
         //Grab tray with claw
-        r.ropePos(15, 0.6);
+        r.ropePos(35, 0.6);
         sleep(1100);
         
         

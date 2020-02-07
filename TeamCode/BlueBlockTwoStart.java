@@ -18,14 +18,11 @@ import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 import org.firstinspires.ftc.teamcode.New_Drivetrain_;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 
-@Autonomous(name = "RedFoundationAuto", group = "Autos")
-public class RedFoundationAuto extends LinearOpMode {
-    
-     boolean blueTeam = true;
-     New_Drivetrain_ r;
+@Autonomous(name = "BlueBlockTwoStart", group = "Autos")
+public class BlueBlockTwoStart extends LinearOpMode {
     @Override
     public void runOpMode() {
-        
+        New_Drivetrain_ r;
         r = new New_Drivetrain_(this);
         
         // lower down the slide
@@ -41,15 +38,12 @@ public class RedFoundationAuto extends LinearOpMode {
 
         while(!isStarted()){
 
-
             if(gamepad1.dpad_up){
                 centralLane = true;
             }
             if(gamepad1.dpad_down){
                 centralLane = false;
             }
-            
-            
             telemetry.addData("Lane:", (centralLane?"central side":"wall side") );
             telemetry.update();
 
@@ -61,38 +55,38 @@ public class RedFoundationAuto extends LinearOpMode {
         // raise the grabs up (not in earlier so we dont move during init)
         r.moveGrabs(false);
         r.claw(false);
-        r.ropePos(-600, 1);
 
         //Start lined up with block closet to bridge, facing towards block
         //Drive forward to block
+        r.ropePos(-600,1);
         r.driveAtHeading(0, 70 , 0, 0.6);
+        r.driveAtHeading(0, 0, -26, 0.7);
+        //Check 6 blocks (grab last one by default) 
         int block = 1;
-        //Check 6 blocks (grab last one by default)
         while(!r.isSkyStone() && block < 3){
             //Move left to next block
-            r.driveAtHeading(0,0,-26,0.5);
+            r.driveAtHeading(0,0,26,0.5);
             block++;
-            telemetry.addData("skystoneScanned", r.isSkyStone());
             telemetry.addData("block", block);
             telemetry.update();
             
         }
         
         //line up centered on block
-        //r.driveAtHeading(0,0,12.5,0.5); //dont mirror this because it moves this way regardless of team, also it needs to move back this far later and also not mirror that to balance out this change
-        r.driveAtHeading(0,8,0,0.3);
+        ///r.driveAtHeading(0,0,11,0.5); //dont mirror this because it moves this way regardless of team, also it needs to move back this far later and also not mirror that to balance out this change
+        r.driveAtHeading(0,4,0,0.5);
         //Lower and grab
-        r.ropePos(0,0.5);
+        r.ropePos(0,0.8);
         sleep(500);
         r.claw(true);
         sleep(300);
-        r.ropePos(-200, 0.9);
-        sleep(200); //maybe delete
+        r.ropePos(-200, 0.5);
+     
         
 
         //move back
         if(centralLane){
-            r.driveAtHeading(0,-25,0,0.7);
+            r.driveAtHeading(0,-5,0,0.7);
         }
         else {
             r.driveAtHeading(0,-87,0,0.7);
@@ -101,17 +95,17 @@ public class RedFoundationAuto extends LinearOpMode {
     
         //Move left to account for blocks checked
         if (block != 1)
-            r.driveAtHeading(0,0, (block - 1) * 28.5, 0.8);
+            r.driveAtHeading(0,0, (block - 1) * -28.5, 0.8);
 
         //Turn and drive under bridge
-        r.ropePos(-70, 0.5);
-        r.driveAtHeading(-90, 195, 0,0.9);
+        r.ropePos(-50, 0.5);
+        r.driveAtHeading(90, 180, 0,0.9);
     
         //r.driveAtHeading(0,0, -195 - 20 * (block - 1), 0.8);
         //Lift rope and drive towards foundation
         r.ropePos(-1200, 0.5);
         if(centralLane){
-            r.driveAtHeading(3, 28, 0, 0.7);
+            r.driveAtHeading(3, 10, 0, 0.7);
         }
         else {
             r.driveAtHeading(3, 90, 0, 0.7);
@@ -123,12 +117,12 @@ public class RedFoundationAuto extends LinearOpMode {
         //sleep(500);
         
         //Move left
-        r.driveAtHeading(6, 10, 35, 0.5);
+        r.driveAtHeading(-6, 10, -35, 0.5);
        // sleep(500);
         
         //Grab tray with claw
         r.ropePos(35, 0.6);
-        sleep(1000);
+        sleep(1100);
         
         
         //back up with tray to corner
@@ -140,20 +134,21 @@ public class RedFoundationAuto extends LinearOpMode {
         sleep(1000);
         
         //Move right and then lower elevator
-        r.driveAtHeading(-6, 0, -110, 0.9);
+        r.driveAtHeading(6, 0, 100, 0.9);
         r.ropePos(0, 0.9);
         r.claw(true);
         if(centralLane){
         //Drive diagonally back to blocks
-        r.driveAtHeading(0, 62, 0, 0.9);
+        r.driveAtHeading(0, 57, 0, 0.9);
         
-          r.driveAtHeading(90, 50, 0, 0.9);
+          r.driveAtHeading(-90, 50, 0, 0.9);
           r.claw(false);
         }
         else {
         
         //Drive diagonally back to blocks
-        r.driveAtHeading(0, 0, -55, 0.9);
+        r.driveAtHeading(0, 0, 55, 0.9);
         }
-}
+       
+    }
 }
